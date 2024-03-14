@@ -1,3 +1,9 @@
+// import React from "react";
+import Slider from "react-slick";
+// import PropTypes from 'prop-types';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import croissant from '../../assets/products/croissant.png';
 import eclair from '../../assets/products/eclair.png';
 import baklava from '../../assets/products/baklava.png';
@@ -11,7 +17,7 @@ import brioche from '../../assets/products/brioche.png';
 import turnover from '../../assets/products/turnover.png';
 import painAu from '../../assets/products/pain-au.png';
 
-const HandmadeProduct = () => {
+const SliderGallery = () => {
     const menuItems = [
         { id: 1, name: "Croissant", description: "Buttery, flaky French delight.", price: Math.floor(Math.random() * 5) + 5, image_name: croissant },
         { id: 2, name: "Éclair", description: "Cream-filled choux pastry, chocolate-glazed.", price: Math.floor(Math.random() * 5) + 6, image_name: eclair },
@@ -26,35 +32,40 @@ const HandmadeProduct = () => {
         { id: 11, name: "Puff Pastry Turnover", description: "Flaky filled pastry treat.", price: Math.floor(Math.random() * 5) + 4, image_name: turnover },
         { id: 12, name: "Pain au Chocolat", description: "Croissant with chocolate filling.", price: Math.floor(Math.random() * 5) + 6, image_name: painAu }
     ];
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        arrows: false,
+        autoplay: true,
+    };
+    
     return (
-        <div className="flex h-fit">
-            <div className="w-full px-12 py-16 flex flex-col gap-16">
-                <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-2">
-                        <h1 className="cormorant-garamond-bold text-5xl mt-1 font-bold leading-tight">Handmade</h1>
-                        <div className="w-12 border-t-[1px] border-black border-solid"></div>
-                    </div>
-                    <h1 className="dancing-script text-8xl -mt-9 font-bold text-[#EA9B58]">Happiness</h1>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    {menuItems.map(item => (
-                        <div key={item.id} className="flex gap-2">
-                            <img src={item.image_name} className="w-24 h-24 rounded-lg" />
-                            <div className="flex flex-col">
-                                <div className="cormorant-garamond-semibold text-2xl">{item.name}</div>
-                                <div className="cormorant-garamond-semibold-italic text-xl mt-0">{item.description}</div>
-                                <div className="cormorant-garamond-bold text-2xl text-[#EA9B58] mt-0">{item.price}</div>
+        <div className="slider-container w-full md:w-3/5">
+            <Slider {...settings}>
+                {menuItems.map(item => (
+                    <div key={item.id} className="flex flex-col gap-2 items-center mb-10">
+                        <img src={item.image_name} className="w-4/5 h-4/5 rounded-lg" />
+                        
+                        <div className="flex flex-col w-4/5">
+                            <div className="flex">
+                                <div className="cormorant-garamond-semibold text-2xl w-2/3">{item.name}</div>
+                                <div className="cormorant-garamond-bold text-2xl text-[#FFFFFF] mt-0 text-right w-1/3">{item.price}</div>
                             </div>
+                            <div className="cormorant-garamond-semibold-italic text-xl mt-0">{item.description}</div>
                         </div>
-                    ))}
-                </div>
-                <div className="w-full flex justify-center">
-                    <div className="w-1/3 border-t-[1px] border-black border-solid mt-3"></div>
-                </div>
-            </div>
+                    </div>
+                ))}
+            </Slider>
         </div>
     );
 };
 
-
-export default HandmadeProduct;
+// SliderGallery.propTypes = {
+    // label: PropTypes.string.isRequired,
+    // customStyle: PropTypes.string.isRequired,
+// }
+  
+export default SliderGallery;

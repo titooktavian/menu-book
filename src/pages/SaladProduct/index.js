@@ -27,7 +27,7 @@ const SaladProduct = () => {
                     <PageTitle label="Overnight Oat" customStyle="-mt-8" />
                 </div>
                 <div className="flex flex-col w-full gap-8">
-                    <div className="grid grid-cols-3 gap-8 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
                         {menuItems.map(item => (
                             <ProductItem
                                 key={item.id}
@@ -39,7 +39,7 @@ const SaladProduct = () => {
                         ))}
                     </div>
                     <div className="w-1/4 border-t-[1px] border-black border-solid"></div>
-                    <div className="grid grid-cols-3 gap-8 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
                         {oatMenu.map(item => (
                             <ProductItem
                                 key={item.id}

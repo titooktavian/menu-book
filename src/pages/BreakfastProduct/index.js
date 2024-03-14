@@ -19,8 +19,8 @@ const BreakfastProduct = () => {
     ];
 
     return (
-        <div className="flex pb-96" style={{ background: 'white', backgroundImage: `url(${breakfastBackground})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom' }}>
-            <div className="w-1/2 p-12 flex flex-col gap-8 bg-white">
+        <div className="flex flex-col md:flex-row pb-96" style={{ background: 'white', backgroundImage: `url(${breakfastBackground})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom' }}>
+            <div className="w-full md:w-1/2 p-12 flex flex-col gap-8 bg-white">
                 <div className="flex flex-col items-start">
                     <PageTitle label="European" customStyle="" />
                     <TextWithLine label="Breakfast" lineWidth="16" customStyle="mt-1" />
@@ -37,7 +37,7 @@ const BreakfastProduct = () => {
                     ))}
                 </div>
             </div>
-            <div className="w-1/2 p-12 flex flex-col gap-8 bg-white">
+            <div className="w-full md:w-1/2 p-12 flex flex-col gap-8 bg-white">
                 <div className="flex flex-col gap-8">
                     {menuItemsFeatured.map(item => (
                         <ProductItem

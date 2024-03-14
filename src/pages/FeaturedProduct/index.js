@@ -15,9 +15,9 @@ const FeaturedProduct = () => {
         { id: 6, name: "Lemonade", description: "Zesty, thirst-quenching citrus drink.", price: Math.floor(Math.random() * 5) + 3, mustTry: false }
     ];
     return (
-        <div className="flex h-screen">
-            <div className="w-1/2 rounded-tl-[180px] rounded-br-[180px]" style={{ background: 'white', backgroundImage: `url(${featuredBackground})`, backgroundSize: 'cover' }} />
-            <div className="w-1/2 p-12 flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row md:h-screen">
+            <div className="w-full md:w-1/2 grow h-96 md:h-screen md:grow-0 md:rounded-tl-[180px] md:rounded-br-[180px]" style={{ background: 'white', backgroundImage: `url(${featuredBackground})`, backgroundSize: 'cover' }} />
+            <div className="w-full md:w-1/2 p-12 flex flex-col gap-8">
                 <div className="flex flex-col items-start">
                     <PageTitle label="Our Selected" customStyle="" />
                     <TextWithLine label="Products" lineWidth="16" customStyle="mt-1" />

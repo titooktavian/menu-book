@@ -34,8 +34,8 @@ const DrinkProduct = () => {
                 <div className="flex flex-col">
                     <PageTitle label="Taste Our Beverages!" customStyle="dancing-script text-6xl font-bold text-[#EA9B58]" />
                 </div>
-                <div className="flex gap-8">
-                    <div className="w-1/3 flex flex-col gap-8">
+                <div className="flex flex-col md:flex-row gap-8">
+                    <div className="w-full md:w-1/3 flex flex-col gap-8">
                         <PageSubtitle label="Smoothies" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
@@ -50,7 +50,7 @@ const DrinkProduct = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="w-1/3 flex flex-col gap-8">
+                    <div className="w-full md:w-1/3 flex flex-col gap-8">
                         <PageSubtitle label="Juices" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
@@ -65,7 +65,7 @@ const DrinkProduct = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="w-1/3 flex flex-col gap-8">
+                    <div className="w-full md:w-1/3 flex flex-col gap-8">
                         <PageSubtitle label="Mojitos" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
