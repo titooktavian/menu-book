@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
+import { SlLike } from 'react-icons/sl';
 
 const SimpleProductItem = ({ id, name, mustTry, price, description, nameStyle, mustTryStyle, priceStyle }) => {
     return (
         <div key={id} className="flex flex-col">
-            <div className="flex w-full md:w-4/5 items-end gap-12">
-                <div className={`cormorant-garamond-semibold grow text-2xl ${nameStyle || ''}`}>
+            <div className="flex w-full md:w-4/5 items-end gap-3 items-center">
+                <div className={`cormorant-garamond-semibold text-2xl ${nameStyle || ''}`}>
                     {name}
-                    {mustTry && (
-                        <span className={`cormorant-garamond-bold-italic grow text-xl ${mustTryStyle || ''} pl-3`}>-Must Try</span>
-                    )}
                 </div>
+                {mustTry && (
+                    <div className={`cormorant-garamond-bold-italic grow text-xl ${mustTryStyle || ''}`}>
+                        <SlLike />
+                    </div>
+                )}
                 <div className={`cormorant-garamond-bold text-2xl grow text-right ${priceStyle || ''}`}>{price}</div>
             </div>
             {description !== '' && (
