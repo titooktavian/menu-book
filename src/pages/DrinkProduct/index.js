@@ -1,32 +1,34 @@
+import { useEffect, useState } from "react";
 import PageSubtitle from "../../components/PageSubtitle";
 import PageTitle from "../../components/PageTitle";
 import ProductItem from "../../components/ProductItem";
 import { PRODUCT_ITEM_TYPE } from "../../utils/constants";
+import { getProductByCategory } from "../../api";
 
 const DrinkProduct = () => {
-    const smoothieMenu = [
-        { id: 1, name: "Berry Blast Smoothie", description: "Mixed berries, yogurt, and honey for a refreshing treat.", price: Math.floor(Math.random() * 5) + 6, mustTry: false },
-        { id: 2, name: "Tropical Paradise Smoothie", description: "Pineapple, mango, banana, and coconut milk, a taste of the tropics.", price: Math.floor(Math.random() * 5) + 7, mustTry: true },
-        { id: 3, name: "Green Goddess Smoothie", description: "Spinach, banana, pineapple, and coconut water for a nutritious boost.", price: Math.floor(Math.random() * 5) + 8, mustTry: true },
-        { id: 4, name: "Peachy Keen Smoothie", description: "Ripe peaches, Greek yogurt, and a hint of vanilla, delightfully sweet.", price: Math.floor(Math.random() * 5) + 7, mustTry: false },
-    ];
+    const [smoothieList, setSmoothieList] = useState([]);
+    const [juiceList, setJuiceList] = useState([]);
+    const [mojitoList, setMojitoList] = useState([]);
+    
+    const fetchProductList = async (type = 5) => {
+        try {
+            const res = await getProductByCategory(type);
+            if (res.error) throw res.error;
+            if (type === 5) setSmoothieList(res.data);
+            if (type === 6) setJuiceList(res.data);
+            if (type === 7) setMojitoList(res.data);
+        } catch (e) {
+            console.log(e.message);
+        } finally {
+            // hideProgress();
+        }
+    };
 
-    const juiceMenu = [
-        { id: 1, name: "Tropical Twist", description: "Pineapple, mango, and coconut water blend.", price: Math.floor(Math.random() * 5) + 6, mustTry: true },
-        { id: 2, name: "Berry Blast", description: "Strawberry, blueberry, and apple juice mix.", price: Math.floor(Math.random() * 5) + 6, mustTry: false },
-        { id: 3, name: "Citrus Zing", description: "Orange, lemon, and lime juice fusion.", price: Math.floor(Math.random() * 5) + 6, mustTry: true },
-        { id: 4, name: "Green Goddess", description: "Spinach, kale, apple, and lemon juice concoction.", price: Math.floor(Math.random() * 5) + 6, mustTry: false },
-        { id: 5, name: "Sunrise Splash", description: "Carrot, orange, and ginger juice infusion.", price: Math.floor(Math.random() * 5) + 6, mustTry: true }
-    ];
-
-    const mojitoMenu = [
-        { id: 1, name: "Classic Mojito", description: "Rum, mint, lime, sugar, soda.", price: Math.floor(Math.random() * 5) + 8, mustTry: false },
-        { id: 2, name: "Strawberry Mojito", description: "Rum, mint, lime, strawberry, soda.", price: Math.floor(Math.random() * 5) + 9, mustTry: true },
-        { id: 3, name: "Blueberry Mojito", description: "Rum, mint, lime, blueberry, soda.", price: Math.floor(Math.random() * 5) + 9, mustTry: true },
-        { id: 4, name: "Pineapple Mojito", description: "Rum, mint, lime, pineapple, soda.", price: Math.floor(Math.random() * 5) + 9, mustTry: false },
-        { id: 5, name: "Mango Mojito", description: "Rum, mint, lime, mango, soda.", price: Math.floor(Math.random() * 5) + 9, mustTry: false },
-        { id: 6, name: "Coconut Mojito", description: "Rum, mint, lime, coconut, soda.", price: Math.floor(Math.random() * 5) + 9, mustTry: true }
-    ];
+    useEffect(() => {
+        fetchProductList(5);
+        fetchProductList(6);
+        fetchProductList(7);
+    }, []);
 
     return (
         <div className="flex">
@@ -39,10 +41,10 @@ const DrinkProduct = () => {
                         <PageSubtitle label="Smoothies" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
-                            {smoothieMenu.map(item => (
+                            {smoothieList.map(item => (
                                 <ProductItem
                                     type={PRODUCT_ITEM_TYPE.SIMPLE}
-                                    key={item.id}
+                                    key={item.id_product}
                                     {...item}
                                     mustTryStyle="text-[#EA9B58]"
                                     priceStyle="text-[#EA9B58]"
@@ -54,10 +56,10 @@ const DrinkProduct = () => {
                         <PageSubtitle label="Juices" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
-                            {juiceMenu.map(item => (
+                            {juiceList.map(item => (
                                 <ProductItem
                                     type={PRODUCT_ITEM_TYPE.SIMPLE}
-                                    key={item.id}
+                                    key={item.id_product}
                                     {...item}
                                     mustTryStyle="text-[#EA9B58]"
                                     priceStyle="text-[#EA9B58]"
@@ -69,10 +71,10 @@ const DrinkProduct = () => {
                         <PageSubtitle label="Mojitos" customStyle="" />
                         <div className="w-1/4 border-t-[1px] border-black border-solid -mt-5"></div>
                         <div className="flex flex-col gap-8">
-                            {mojitoMenu.map(item => (
+                            {mojitoList.map(item => (
                                 <ProductItem
                                     type={PRODUCT_ITEM_TYPE.SIMPLE}
-                                    key={item.id}
+                                    key={item.id_product}
                                     {...item}
                                     mustTryStyle="text-[#EA9B58]"
                                     priceStyle="text-[#EA9B58]"

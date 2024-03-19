@@ -1,58 +1,74 @@
+import { useContext, useEffect, useState } from "react";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
 import { SlLocationPin, SlPhone, SlEnvolope, SlSocialFacebook, SlSocialTwitter, SlSocialInstagram, SlSocialYoutube } from "react-icons/sl";
 import OutletName from '../OutletName';
+import { getWorkingHours } from "../../api";
 
 const Footer = () => {
+    const { merchantInfo } = useContext(MenuBookContext);
+    const [workingHours, setWorkingHours] = useState([]);
+    
+    const fetchWorkingHours = async () => {
+        try {
+            const res = await getWorkingHours();
+            if (res.error) throw res.error;
+            setWorkingHours(res.data);
+        } catch (e) {
+            console.log(e.message);
+        } finally {
+            // hideProgress();
+        }
+    };
+
+    useEffect(() => {
+        fetchWorkingHours();
+    }, []);
+
     return (
         <div className="flex flex-col md:flex-row px-12 py-6 gap-12">
             <div className="flex flex-col w-full md:w-1/4 gap-3">
-                <OutletName />
-                <div className="roboto-black text-sm">Step into our European haven, where each dish tells a story of tradition and innovation. Experience the rich flavors of Europe in a charming and welcoming ambiance.</div>
+                <OutletName merchantInfo={merchantInfo} />
+                <div className="roboto-black text-sm">{merchantInfo.description}</div>
             </div>
             <div className="flex flex-col w-full md:w-1/4 gap-2">
                 <div className="roboto-black font-bold text-xl mb-2">Our Address</div>
                 <div className="flex items-center gap-2">
                     <SlLocationPin />
-                    <h1 className="roboto-black text-sm">123 Main Street Anytown, USA</h1>
+                    <h1 className="roboto-black text-sm">{merchantInfo.address}</h1>
                 </div>
                 <div className="flex items-center gap-2">
                     <SlPhone />
-                    <h1 className="roboto-black text-sm">+6285 8512 3456</h1>
+                    <h1 className="roboto-black text-sm">{merchantInfo.telephone}</h1>
                 </div>
                 <div className="flex items-center gap-2">
                     <SlEnvolope />
-                    <h1 className="roboto-black text-sm">contact@bavarianbliss.com</h1>
+                    <h1 className="roboto-black text-sm">{merchantInfo.email}</h1>
                 </div>
             </div>
             <div className="flex flex-col w-full md:w-1/4 gap-2">
                 <div className="roboto-black font-bold text-xl mb-2">Working Hours</div>
-                <div className="flex items-center gap-2">
-                    <div className="roboto-black text-sm w-1/2">Monday - Friday</div>
-                    <div className="roboto-black text-sm w-1/2">08:00 - 22:00</div>
-                </div>
-                <div className="flex items-center gap-2">
-                    <div className="roboto-black text-sm w-1/2">Saturday</div>
-                    <div className="roboto-black text-sm w-1/2">08:00 - 23:00</div>
-                </div>
-                <div className="flex items-center gap-2">
-                    <div className="roboto-black text-sm w-1/2">Sunday</div>
-                    <div className="roboto-black text-sm w-1/2">08:00 - 23:00</div>
-                </div>
+                {workingHours.map(item => (
+                    <div className="flex items-center gap-2" key={item.id}>
+                        <div className="roboto-black text-sm w-1/2">{item.description}</div>
+                        <div className="roboto-black text-sm w-1/2">{item.duration}</div>
+                    </div>
+                ))}
             </div>
             <div className="flex flex-col w-full md:w-1/4 gap-2">
                 <div className="roboto-black font-bold text-xl mb-2">Follow Us</div>
                 <div className="flex gap-2">
-                    <button className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
+                    <a href={merchantInfo.facebook} target="_blank" rel="noreferrer" className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
                         <SlSocialFacebook />
-                    </button>
-                    <button className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
+                    </a>
+                    <a href={merchantInfo.twitter} target="_blank" rel="noreferrer" className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
                         <SlSocialTwitter />
-                    </button>
-                    <button className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
+                    </a>
+                    <a href={merchantInfo.instagram} target="_blank" rel="noreferrer" className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
                         <SlSocialInstagram />
-                    </button>
-                    <button className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
+                    </a>
+                    <a href={merchantInfo.youtube} target="_blank" rel="noreferrer" className="border-[1px] border-black hover:border-0 hover:bg-[#F6A96C] w-8 h-8 text-md font-bold rounded-full flex justify-center items-center">
                         <SlSocialYoutube />
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

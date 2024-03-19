@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import BreakfastProduct from '../../pages/BreakfastProduct';
 import CoffeeAndTea from '../../pages/CoffeeAndTea';
 import DrinkProduct from '../../pages/DrinkProduct';
@@ -8,20 +7,23 @@ import HandmadeProduct from '../../pages/HandmadeProduct';
 import Header from '../../pages/Header';
 import SaladProduct from '../../pages/SaladProduct';
 import Footer from '../Footer';
+import MenuBookProvider from '../../contexts/MenuBookContext';
 
 const Layout = () => {
     return (
-        <div>
-            <Header />
-            <FeaturedProduct />
-            <BreakfastProduct />
-            <HandmadeProduct />
-            <SaladProduct />
-            <DrinkProduct />
-            <CoffeeAndTea />
-            <Gallery />
-            <Footer />
-        </div>
+        <MenuBookProvider parentProps={{}}>
+            <div>
+                <Header />
+                <FeaturedProduct />
+                <BreakfastProduct />
+                <HandmadeProduct />
+                <SaladProduct />
+                <DrinkProduct />
+                <CoffeeAndTea />
+                <Gallery />
+                <Footer />
+            </div>
+        </MenuBookProvider>
     );
 };
 
