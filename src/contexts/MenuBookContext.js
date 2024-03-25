@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getMerchantInfo } from '../api';
+import { LOADING_TYPE } from '../utils/constants';
 
 const SetValueContext = () => {
     const [merchantInfo, setMerchantInfo] = useState({});
+    const [showLoading, setShowLoading] = useState(LOADING_TYPE.RESTAURANT);
 
     const fetchMerchantInfo = async () => {
         try {
@@ -13,7 +15,7 @@ const SetValueContext = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.BREAKFAST);
         }
     };
 
@@ -23,6 +25,8 @@ const SetValueContext = () => {
 
     return {
         merchantInfo,
+        showLoading,
+        setShowLoading,
     };
 };
 

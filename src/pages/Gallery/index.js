@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SliderGallery from "../../components/SliderGallery";
 import { getCategoryList, getProductByCategory } from "../../api";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
+import { LOADING_TYPE } from "../../utils/constants";
 
 const Gallery = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
     const [categoryList, setCategoryList] = useState([]);
     const [activeCategory, setActiveCategory] = useState('');
     const [productList, setProductList] = useState([]);
 
     const fetchCategoryList = async () => {
+        setShowLoading(LOADING_TYPE.SHOWCASE);
         try {
             const res = await getCategoryList();
             if (res.error) throw res.error;
@@ -16,19 +20,21 @@ const Gallery = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.FOOTER);
         }
     };
 
     const fetchProductList = async () => {
-        try {
-            const res = await getProductByCategory(activeCategory);
-            if (res.error) throw res.error;
-            setProductList(res.data);
-        } catch (e) {
-            console.log(e.message);
-        } finally {
-            // hideProgress();
+        if (activeCategory !== '') {
+            try {
+                const res = await getProductByCategory(activeCategory);
+                if (res.error) throw res.error;
+                setProductList(res.data);
+            } catch (e) {
+                console.log(e.message);
+            } finally {
+                // hideProgress();
+            }
         }
     };
 
@@ -37,8 +43,8 @@ const Gallery = () => {
     }, [activeCategory]);
 
     useEffect(() => {
-        fetchCategoryList();
-    }, []);
+        if (showLoading === LOADING_TYPE.SHOWCASE) fetchCategoryList();
+    }, [showLoading]);
 
     return (
         <div className="flex bg-[#F6A96C]">

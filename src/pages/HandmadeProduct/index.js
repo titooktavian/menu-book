@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getProductByCategory } from "../../api";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
+import { LOADING_TYPE } from "../../utils/constants";
 
 const HandmadeProduct = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
+
     const [productList, setProductList] = useState([]);
     
     const fetchProductList = async () => {
+        setShowLoading(LOADING_TYPE.HANDMADE);
         try {
             const res = await getProductByCategory(1);
             if (res.error) throw res.error;
@@ -12,13 +17,13 @@ const HandmadeProduct = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.SALAD);
         }
     };
 
     useEffect(() => {
-        fetchProductList();
-    }, []);
+        if (showLoading === LOADING_TYPE.HANDMADE) fetchProductList();
+    }, [showLoading]);
 
     return (
         <div className="flex h-fit">

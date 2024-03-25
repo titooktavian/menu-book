@@ -3,12 +3,14 @@ import { MenuBookContext } from "../../contexts/MenuBookContext";
 import { SlLocationPin, SlPhone, SlEnvolope, SlSocialFacebook, SlSocialTwitter, SlSocialInstagram, SlSocialYoutube } from "react-icons/sl";
 import OutletName from '../OutletName';
 import { getWorkingHours } from "../../api";
+import { LOADING_TYPE } from "../../utils/constants";
 
 const Footer = () => {
-    const { merchantInfo } = useContext(MenuBookContext);
+    const { merchantInfo, setShowLoading, showLoading } = useContext(MenuBookContext);
     const [workingHours, setWorkingHours] = useState([]);
     
     const fetchWorkingHours = async () => {
+        setShowLoading(LOADING_TYPE.FOOTER);
         try {
             const res = await getWorkingHours();
             if (res.error) throw res.error;
@@ -16,13 +18,13 @@ const Footer = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.HIDDEN);
         }
     };
 
     useEffect(() => {
-        fetchWorkingHours();
-    }, []);
+        if (showLoading === LOADING_TYPE.FOOTER) fetchWorkingHours();
+    }, [showLoading]);
 
     return (
         <div className="flex flex-col md:flex-row px-12 py-6 gap-12">

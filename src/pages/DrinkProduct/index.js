@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PageSubtitle from "../../components/PageSubtitle";
 import PageTitle from "../../components/PageTitle";
 import ProductItem from "../../components/ProductItem";
-import { PRODUCT_ITEM_TYPE } from "../../utils/constants";
+import { LOADING_TYPE, PRODUCT_ITEM_TYPE } from "../../utils/constants";
 import { getProductByCategory } from "../../api";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
 
 const DrinkProduct = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
     const [smoothieList, setSmoothieList] = useState([]);
     const [juiceList, setJuiceList] = useState([]);
     const [mojitoList, setMojitoList] = useState([]);
     
     const fetchProductList = async (type = 5) => {
+        setShowLoading(LOADING_TYPE.BEVERAGE);
         try {
             const res = await getProductByCategory(type);
             if (res.error) throw res.error;
@@ -20,15 +23,17 @@ const DrinkProduct = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.COFFEE);
         }
     };
 
     useEffect(() => {
-        fetchProductList(5);
-        fetchProductList(6);
-        fetchProductList(7);
-    }, []);
+        if (showLoading === LOADING_TYPE.BEVERAGE) {
+            fetchProductList(5);
+            fetchProductList(6);
+            fetchProductList(7);
+        }
+    }, [showLoading]);
 
     return (
         <div className="flex">

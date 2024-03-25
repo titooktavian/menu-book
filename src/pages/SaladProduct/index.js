@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PageTitle from "../../components/PageTitle";
 import ProductItem from "../../components/ProductItem";
 import TextWithLine from "../../components/TextWithLine";
-import { PRODUCT_ITEM_TYPE } from "../../utils/constants";
+import { LOADING_TYPE, PRODUCT_ITEM_TYPE } from "../../utils/constants";
 import { getProductByCategory } from "../../api";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
 
 const SaladProduct = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
     const [saladList, setSaladList] = useState([]);
     const [oatList, setOatList] = useState([]);
     
     const fetchProductList = async (type = 3) => {
+        setShowLoading(LOADING_TYPE.SALAD);
         try {
             const res = await getProductByCategory(type);
             if (res.error) throw res.error;
@@ -18,14 +21,16 @@ const SaladProduct = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.BEVERAGE);
         }
     };
 
     useEffect(() => {
-        fetchProductList(3);
-        fetchProductList(4);
-    }, []);
+        if (showLoading === LOADING_TYPE.SALAD) {
+            fetchProductList(3);
+            fetchProductList(4);
+        }
+    }, [showLoading]);
 
     return (
         <div className="flex bg-[#F6A96C]">

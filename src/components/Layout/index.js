@@ -8,11 +8,13 @@ import Header from '../../pages/Header';
 import SaladProduct from '../../pages/SaladProduct';
 import Footer from '../Footer';
 import MenuBookProvider from '../../contexts/MenuBookContext';
+import Loading from '../Loading';
 
 const Layout = () => {
     return (
         <MenuBookProvider parentProps={{}}>
             <div>
+                <Loading />
                 <Header />
                 <FeaturedProduct />
                 <BreakfastProduct />

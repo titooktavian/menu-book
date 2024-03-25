@@ -1,15 +1,18 @@
 import pageBackground from '../../assets/bg-coffee.jpg';
 import PageSubtitle from '../../components/PageSubtitle';
 import ProductItem from '../../components/ProductItem';
-import { PRODUCT_ITEM_TYPE } from '../../utils/constants';
-import { useEffect, useState } from 'react';
+import { LOADING_TYPE, PRODUCT_ITEM_TYPE } from '../../utils/constants';
+import { useContext, useEffect, useState } from 'react';
 import { getProductByCategory } from '../../api';
+import { MenuBookContext } from '../../contexts/MenuBookContext';
 
 const CoffeeAndTea = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
     const [coffeeList, setCoffeeList] = useState([]);
     const [teaList, setTeaList] = useState([]);
     
     const fetchProductList = async (type = 8) => {
+        setShowLoading(LOADING_TYPE.COFFEE);
         try {
             const res = await getProductByCategory(type);
             if (res.error) throw res.error;
@@ -18,14 +21,16 @@ const CoffeeAndTea = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.SHOWCASE);
         }
     };
 
     useEffect(() => {
-        fetchProductList(8);
-        fetchProductList(9);
-    }, []);
+        if (showLoading === LOADING_TYPE.COFFEE) {
+            fetchProductList(8);
+            fetchProductList(9);
+        }
+    }, [showLoading]);
 
     return (
         <div className="flex flex-col-reverse md:flex-row">

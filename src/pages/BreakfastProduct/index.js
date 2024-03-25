@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import breakfastBackground from '../../assets/bg-breakfast.jpg';
 import PageTitle from '../../components/PageTitle';
 import ProductItem from '../../components/ProductItem';
 import TextWithLine from '../../components/TextWithLine';
-import { PRODUCT_ITEM_TYPE } from '../../utils/constants';
+import { LOADING_TYPE, PRODUCT_ITEM_TYPE } from '../../utils/constants';
 import { getProductByCategory } from "../../api";
+import { MenuBookContext } from "../../contexts/MenuBookContext";
 
 const BreakfastProduct = () => {
+    const { setShowLoading, showLoading } = useContext(MenuBookContext);
     const [productList, setProductList] = useState([[], []]);
     
     const fetchProductList = async () => {
+        setShowLoading(LOADING_TYPE.BREAKFAST);
         try {
             const res = await getProductByCategory(2);
             if (res.error) throw res.error;
@@ -19,13 +22,13 @@ const BreakfastProduct = () => {
         } catch (e) {
             console.log(e.message);
         } finally {
-            // hideProgress();
+            setShowLoading(LOADING_TYPE.HANDMADE);
         }
     };
 
     useEffect(() => {
-        fetchProductList();
-    }, []);
+        if (showLoading === LOADING_TYPE.BREAKFAST) fetchProductList();
+    }, [showLoading]);
 
     return (
         <div className="flex flex-col md:flex-row pb-96" style={{ background: 'white', backgroundImage: `url(${breakfastBackground})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom' }}>
